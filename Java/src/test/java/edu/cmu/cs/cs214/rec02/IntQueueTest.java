@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 
 
 /**
- * TODO: 
  * 1. The {@link LinkedIntQueue} has no bugs. We've provided you with some example test cases.
  * Write your own unit tests to test against IntQueue interface with specification testing method 
  * using mQueue = new LinkedIntQueue();
@@ -38,8 +37,8 @@ public class IntQueueTest {
     @Before
     public void setUp() {
         // comment/uncomment these lines to test each class
-        mQueue = new LinkedIntQueue();
-    //    mQueue = new ArrayIntQueue();
+        // mQueue = new LinkedIntQueue();
+        mQueue = new ArrayIntQueue();
 
         testList = new ArrayList<>(List.of(1, 2, 3));
     }
@@ -52,20 +51,22 @@ public class IntQueueTest {
 
     @Test
     public void testNotEmpty() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+        mQueue.enqueue(3);
+        assertFalse(mQueue.isEmpty());
     }
 
     @Test
     public void testPeekEmptyQueue() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+        assertNull(mQueue.peek());
     }
 
     @Test
     public void testPeekNoEmptyQueue() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+        Integer expectedElement = 5; // Example value
+        mQueue.enqueue(expectedElement);
+        // Assert: Check if the peeked element is as expected
+        assertEquals(expectedElement, mQueue.peek());
+    
     }
 
     @Test
@@ -80,8 +81,44 @@ public class IntQueueTest {
 
     @Test
     public void testDequeue() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+        Integer firstEle = 10;
+        Integer secondEle = 20;
+        mQueue.enqueue(firstEle);
+        mQueue.enqueue(secondEle);
+        assertEquals(firstEle, mQueue.dequeue());
+        assertEquals(secondEle,mQueue.dequeue());
+        assertNull(mQueue.dequeue());
+    }
+
+    @Test
+    public void testClear() {
+        // Pre-Clear: Add some elements to the queue
+        mQueue.enqueue(1);
+        mQueue.enqueue(2);
+        mQueue.enqueue(3);
+
+        mQueue.clear();
+
+        assertTrue(mQueue.isEmpty());
+        assertEquals(0, mQueue.size());
+        assertNull(mQueue.peek());
+    }
+
+    @Test
+    public void testEnsureCapacity(){
+        int maxCapacity = 10;
+
+        for (int i = 0; i<maxCapacity;i++){
+            mQueue.enqueue(i);
+        }
+        mQueue.dequeue();
+        mQueue.enqueue(maxCapacity); //overflow test
+        mQueue.enqueue(maxCapacity+1);
+        assertEquals(maxCapacity+1, mQueue.size());
+
+        for (int i = 0; i <= maxCapacity; i++) {
+            assertEquals("Dequeued element should match", Integer.valueOf(i+1), mQueue.dequeue());
+        }
     }
 
     @Test
